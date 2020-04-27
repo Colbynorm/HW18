@@ -1,0 +1,47 @@
+const WebpackPwaManifest = require("webpack-pwa-manifest");
+const path = require("path");
+
+const config = {
+  entry: {
+    app: "./public/index.js",
+    //favorites: "./assets/js/favorites.js",
+    //topic: "./assets/js/topic.js"
+  },
+  output: {
+    path: __dirname + "/dist",
+    filename: "[name].bundle.js"
+  },
+  mode: "development",
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"]
+          }
+        }
+      }
+    ]
+  },
+  plugins: [
+    new WebpackPwaManifest({
+      name: "Budget Tracker",
+      short_name: "HW18",
+      description: "Budget Tracker that will allow you to make offline addition to your budget.",
+      background_color: "#01579b",
+      theme_color: "#ffffff",
+      "theme-color": "#ffffff",
+      start_url: "/",
+      icons: [{
+        src: path.resolve("public/icons/pic1.png"),
+        sizes: [96, 128, 192, 256, 384, 512],
+        destination: path.join("public", "icons")
+      }]
+    })
+  ]
+};
+
+module.exports = config;
